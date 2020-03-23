@@ -1,5 +1,5 @@
-import { cssBundleHref } from "@remix-run/css-bundle";
-import type { LinksFunction } from "@remix-run/node";
+import { cssBundleHref } from '@remix-run/css-bundle'
+import type { LinksFunction } from '@remix-run/node'
 import {
   Links,
   LiveReload,
@@ -7,27 +7,51 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react'
+import { createPortal } from 'react-dom'
+import { ClientOnly } from 'remix-utils'
 
 export const links: LinksFunction = () => [
-  ...(cssBundleHref ? [{ rel: "stylesheet", href: cssBundleHref }] : []),
-];
+  ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
+]
 
+export function Head() {
+  return (
+    <>
+      <meta charSet="utf-8" />
+      <meta name="viewport" content="width=device-width,initial-scale=1" />
+      <Meta />
+      <Links />
+    </>
+  )
+}
+
+// export default function App() {
+//   return (
+//     <html lang="en">
+//       <head>
+//         <meta charSet="utf-8" />
+//         <meta name="viewport" content="width=device-width,initial-scale=1" />
+//         <Meta />
+//         <Links />
+//       </head>
+//       <body>
+//         <Outlet />
+//         <ScrollRestoration />
+//         <Scripts />
+//         <LiveReload />
+//       </body>
+//     </html>
+//   );
+// }
 export default function App() {
   return (
-    <html lang="en">
-      <head>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <Meta />
-        <Links />
-      </head>
-      <body>
-        <Outlet />
-        <ScrollRestoration />
-        <Scripts />
-        <LiveReload />
-      </body>
-    </html>
-  );
+    <>
+      <ClientOnly>{() => createPortal(<Head />, document.head)}</ClientOnly>
+      <Outlet />
+      <ScrollRestoration />
+      <Scripts />
+      <LiveReload />
+    </>
+  )
 }
