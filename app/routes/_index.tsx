@@ -1,4 +1,5 @@
 import type { V2_MetaFunction } from '@remix-run/node'
+import { Link } from '@remix-run/react'
 
 export const meta: V2_MetaFunction = () => {
   return [
@@ -8,5 +9,13 @@ export const meta: V2_MetaFunction = () => {
 }
 
 export default function Index() {
-  return <h1>Welcome to the notes app</h1>
+  return (
+    <main id="content">
+      <h1>A better way of keeping track of your notes</h1>
+      <p>Try our early beta and never loose track of your notes again!</p>
+      <p id="cta">
+        <Link to="/notes">Try Now!</Link>
+      </p>
+    </main>
+  )
 }
