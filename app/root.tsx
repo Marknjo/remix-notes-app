@@ -11,7 +11,10 @@ import {
 import { createPortal } from 'react-dom'
 import { ClientOnly } from 'remix-utils'
 
+import mainStyle from '~/styles/main.css'
+
 export const links: LinksFunction = () => [
+  { rel: 'stylesheet', href: mainStyle },
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
