@@ -49,7 +49,9 @@ function Document({
 export default function App() {
   return (
     <Document>
-      <MainNavigation />
+      <header>
+        <MainNavigation />
+      </header>
       <Outlet />
     </Document>
   )
