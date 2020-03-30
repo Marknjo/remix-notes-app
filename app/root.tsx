@@ -13,6 +13,7 @@ import {
 import type { ReactNode } from 'react'
 
 import mainStyle from '~/styles/main.css'
+import MainNavigation from './components/MainNavigation'
 
 export const links: LinksFunction = () => [
   { rel: 'stylesheet', href: mainStyle },
@@ -54,6 +55,7 @@ function Document({
 export default function App() {
   return (
     <Document>
+      <MainNavigation />
       <Outlet />
     </Document>
   )
