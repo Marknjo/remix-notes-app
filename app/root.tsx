@@ -20,18 +20,6 @@ export const links: LinksFunction = () => [
   ...(cssBundleHref ? [{ rel: 'stylesheet', href: cssBundleHref }] : []),
 ]
 
-export function Head({ title }: { title?: string }) {
-  return (
-    <head>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="width=device-width,initial-scale=1" />
-      <Meta />
-      <Links />
-      {title && <title>{title}</title>}
-    </head>
-  )
-}
-
 function Document({
   title,
   children,
@@ -41,7 +29,13 @@ function Document({
 }) {
   return (
     <html lang="en">
-      <Head title={title} />
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <Meta />
+        <Links />
+        {title && <title>{title}</title>}
+      </head>
       <body>
         {children}
         <ScrollRestoration />
