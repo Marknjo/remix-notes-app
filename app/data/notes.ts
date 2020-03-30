@@ -3,7 +3,7 @@ import fs from 'fs/promises'
 
 export interface INote {
   title: string
-  body: string
+  description: string
 }
 
 export async function getStoredNotes(): Promise<Array<INote> | []> {

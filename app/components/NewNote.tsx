@@ -9,8 +9,8 @@ function NewNote() {
         <input type="text" id="title" name="title" required />
       </p>
       <p>
-        <label htmlFor="content">Content</label>
-        <textarea id="content" name="content" rows={5} required />
+        <label htmlFor="description">Description</label>
+        <textarea id="description" name="description" rows={5} required />
       </p>
       <div className="form-actions">
         <button>Add Note</button>
