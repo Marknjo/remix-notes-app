@@ -4,9 +4,10 @@ import { v4 as randomUUID } from 'uuid'
 import fs from 'fs/promises'
 
 export interface INote {
-  id?: string
+  id: string
   title: string
   description: string
+  createdAt: string
 }
 
 export async function getStoredNotes(): Promise<Array<INote> | []> {
@@ -26,13 +27,23 @@ export async function getStoredNotes(): Promise<Array<INote> | []> {
   }
 }
 
-export async function createNote(note: INote) {
-  const oldNotes = await getStoredNotes()
+export async function createNote(note: Pick<INote, 'description' | 'title'>) {
+  try {
+    const oldNotes = await getStoredNotes()
 
-  const id = randomUUID()
-  note.id = id
+    const id = randomUUID()
 
-  const newNotes = [note, ...oldNotes]
+    const newNote: Partial<INote> = note
+    newNote.id = id
+    newNote.createdAt = new Date(Date.now()).toISOString()
 
-  return fs.writeFile('notes.json', JSON.stringify({ notes: newNotes || [] }))
+    const newNotes = [newNote, ...oldNotes]
+
+    return fs.writeFile('notes.json', JSON.stringify({ notes: newNotes || [] }))
+  } catch (error) {
+    throw json({
+      message: 'Could not add new note to the store',
+      statusCode: 500,
+    })
+  }
 }
