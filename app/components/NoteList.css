@@ -20,6 +20,7 @@
   border-radius: 4px;
   animation: fade-blur-in 1s ease-out forwards;
   transition: all 0.3s ease-out;
+  position: relative;
 }
 
 .note:hover {
@@ -53,4 +54,28 @@
   overflow: hidden;
   text-overflow: ellipsis;
   width: 100%;
+}
+
+.trashIcon {
+  color: var(--color-secondary-50);
+  cursor: pointer;
+}
+
+.trashIcon:hover {
+  box-shadow: 5px 10px rgba(0, 0, 0, 0.2);
+  color: var(--color-secondary-200);
+}
+.delete-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.w-6 {
+  width: 1.4rem;
+}
+
+.h-6 {
+  height: 1.4rem;
 }
