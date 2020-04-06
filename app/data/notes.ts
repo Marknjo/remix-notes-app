@@ -80,3 +80,24 @@ export async function getNote(id: string) {
     })
   }
 }
+
+export async function deleteNote(id: string) {
+  try {
+    const notes = await getStoredNotes()
+
+    if (notes.length === 0) {
+      throw new Error(`Oops no notes in the store`)
+    }
+
+    findNote(id, notes)
+
+    const filteredNotes = notes.filter(note => note.id !== id)
+
+    await fs.writeFile('notes.json', JSON.stringify({ notes: filteredNotes }))
+  } catch (error) {
+    throw new Response(null, {
+      status: error instanceof Error ? 400 : 500,
+      statusText: `Failed to delete a note with id ${id} from the store`,
+    })
+  }
+}
