@@ -1,4 +1,3 @@
-import { json } from '@remix-run/node'
 import { v4 as randomUUID } from 'uuid'
 
 import fs from 'fs/promises'
@@ -44,6 +43,40 @@ export async function createNote(note: Pick<INote, 'description' | 'title'>) {
     throw new Response(null, {
       status: 500,
       statusText: 'Could not add new note to the store',
+    })
+  }
+}
+
+function findNote(id: string, notes: Array<INote>) {
+  try {
+    const foundNoteIndex = notes.findIndex(note => note.id === id)
+
+    console.log(foundNoteIndex)
+
+    if (foundNoteIndex === -1) {
+      throw new Error(`Note with id ${id} not found from the store`)
+    }
+
+    return foundNoteIndex
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function getNote(id: string) {
+  try {
+    const notes = await getStoredNotes()
+
+    if (notes.length === 0) {
+      throw new Error(`Oops no notes in the store`)
+    }
+
+    return notes[findNote(id, notes)]
+  } catch (error) {
+    throw new Response(null, {
+      status: error instanceof Error ? 400 : 500,
+      statusText:
+        error instanceof Error ? error.message : 'Failed to find a note',
     })
   }
 }
