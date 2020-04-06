@@ -58,6 +58,6 @@
 
 .form-actions button:disabled {
   background-color: var(--color-primary-200);
-  color: var(--color-primary-300);
+  color: var(--color-primary-50);
   cursor: not-allowed;
 }
