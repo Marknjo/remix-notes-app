@@ -20,9 +20,9 @@ export async function getStoredNotes(): Promise<Array<INote> | []> {
     const storedNotes = data.notes ?? []
     return storedNotes
   } catch (error) {
-    throw json({
-      message: 'Could not load notes from the store',
-      statusCode: 500,
+    throw new Response(null, {
+      status: 500,
+      statusText: 'Could not load notes from the store',
     })
   }
 }
@@ -41,9 +41,9 @@ export async function createNote(note: Pick<INote, 'description' | 'title'>) {
 
     return fs.writeFile('notes.json', JSON.stringify({ notes: newNotes || [] }))
   } catch (error) {
-    throw json({
-      message: 'Could not add new note to the store',
-      statusCode: 500,
+    throw new Response(null, {
+      status: 500,
+      statusText: 'Could not add new note to the store',
     })
   }
 }
