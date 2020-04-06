@@ -26,6 +26,12 @@ function NoteList({ notes }: { notes: Array<INote> }) {
               </ul>
               <h2>{note.title}</h2>
               <Form action="/delete-note" method="delete">
+                <input
+                  type="hidden"
+                  name="noteId"
+                  value={note.id}
+                  aria-hidden
+                />
                 <button type="submit" className="delete-btn">
                   <TrashIcon />
                 </button>
