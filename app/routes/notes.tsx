@@ -5,6 +5,7 @@ import type {
   LinksFunction,
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
+import type { TErrors } from '~/components/NewNote'
 import NewNote, { links as newNoteStyles } from '~/components/NewNote'
 import NoteList, { links as noteListStyles } from '~/components/NoteList'
 import type { INote } from '~/data/notes'
@@ -39,15 +40,18 @@ export const action: ActionFunction = async ({ request }) => {
   // validation
   const errors = {
     required: {
+      type: 'required',
       title: newNote.title ? null : 'Title is required',
       description: newNote.description ? null : 'Description is required',
     },
     minLen: {
+      type: 'minLen',
       title: newNote.title.length > 5 ? null : 'Title is too short',
       description:
         newNote.description.length > 5 ? null : 'Description is too short',
     },
     maxLen: {
+      type: 'maxLen',
       title: newNote.title.length < 100 ? null : 'Title is too long',
       description:
         newNote.description.length < 1000 ? null : 'Description is too long',
@@ -59,7 +63,7 @@ export const action: ActionFunction = async ({ request }) => {
   )
 
   if (hasErrors) {
-    return Object.values(errors)
+    return Object.values(errors) as TErrors
   }
 
   // save to store

@@ -1,9 +1,15 @@
 import type { LinksFunction } from '@remix-run/node'
-import { Form, useNavigation } from '@remix-run/react'
+import { Form, useActionData, useNavigation } from '@remix-run/react'
 import styles from './NewNote.css'
+
+export type TErrors = Array<{
+  title: string | null
+  description: string | null
+}>
 
 function NewNote() {
   const navigation = useNavigation()
+  const errors = useActionData<TErrors>()
 
   const isSubmitting = navigation.state === 'submitting'
 
