@@ -37,6 +37,32 @@ export const action: ActionFunction = async ({ request }) => {
   ) as Pick<INote, 'description' | 'title'>
 
   // validation
+  const errors = {
+    required: {
+      title: newNote.title ? null : 'Title is required',
+      description: newNote.description ? null : 'Description is required',
+    },
+    minLen: {
+      title: newNote.title.length > 5 ? null : 'Title is too short',
+      description:
+        newNote.description.length > 5 ? null : 'Description is too short',
+    },
+    maxLen: {
+      title: newNote.title.length < 100 ? null : 'Title is too long',
+      description:
+        newNote.description.length < 1000 ? null : 'Description is too long',
+    },
+  }
+
+  const hasErrors = Object.values(Object.values(errors)).some(
+    errorMes => errorMes,
+  )
+
+  if (hasErrors) {
+    return Object.values(errors)
+  }
+
+  // save to store
   await createNote(newNote)
 
   return redirect('.')
