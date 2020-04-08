@@ -1,7 +1,8 @@
 import type { INote } from '~/data/notes'
 import styles from './NoteList.css'
 import TrashIcon from './TrashIcon'
-import { Form } from '@remix-run/react'
+import { Form, Link } from '@remix-run/react'
+import ExternalLinkIcon from './ExternalLinkIcon'
 
 function NoteList({ notes }: { notes: Array<INote> }) {
   return (
@@ -10,6 +11,9 @@ function NoteList({ notes }: { notes: Array<INote> }) {
         <li key={note.id} className="note">
           <article>
             <header>
+              <Link to={`./${note.id}`} className="link-to-note">
+                <ExternalLinkIcon />
+              </Link>
               <ul className="note-meta">
                 <li>#{index + 1}</li>
                 <li>
