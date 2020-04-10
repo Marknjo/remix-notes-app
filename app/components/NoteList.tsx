@@ -1,8 +1,8 @@
+import { Link } from '@remix-run/react'
 import type { INote } from '~/data/notes'
 import styles from './NoteList.css'
-import TrashIcon from './TrashIcon'
-import { Form, Link } from '@remix-run/react'
 import ExternalLinkIcon from './ExternalLinkIcon'
+import DeleteNoteForm from './DeleteNoteForm'
 
 function NoteList({ notes }: { notes: Array<INote> }) {
   return (
@@ -29,17 +29,7 @@ function NoteList({ notes }: { notes: Array<INote> }) {
                 </li>
               </ul>
               <h2>{note.title}</h2>
-              <Form action="/delete-note" method="delete">
-                <input
-                  type="hidden"
-                  name="noteId"
-                  value={note.id}
-                  aria-hidden
-                />
-                <button type="submit" className="delete-btn">
-                  <TrashIcon />
-                </button>
-              </Form>
+              {<DeleteNoteForm id={note.id} />}
             </header>
             <p>{note.description}</p>
           </article>
