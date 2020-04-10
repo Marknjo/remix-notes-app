@@ -1,7 +1,7 @@
+import { useMemo } from 'react'
 import type { LinksFunction } from '@remix-run/node'
 import { Form, useActionData, useNavigation } from '@remix-run/react'
 import styles from './NewNote.css'
-import { useCallback } from 'react'
 
 export type TErrors = Array<{
   type: string
@@ -71,11 +71,15 @@ function ErrorField({
 
 function NewNote() {
   const navigation = useNavigation()
-  const errors = useActionData<TErrors | undefined>()
-  const { titleErrors, descriptionErrors } = useCallback(
-    () => normalizeErrors(errors),
-    [errors],
-  )()
+  const actionData = useActionData<{
+    values: { title: string; description: string }
+    errors: TErrors | undefined
+  }>()
+
+  const { titleErrors, descriptionErrors } = useMemo(
+    () => normalizeErrors(actionData?.errors),
+    [actionData?.errors],
+  )
 
   const isSubmitting = navigation.state === 'submitting'
 
