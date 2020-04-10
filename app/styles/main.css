@@ -102,6 +102,30 @@ body {
   border: 1px solid rgb(216, 78, 53) !important;
 }
 
+.trashIcon {
+  color: var(--color-secondary-50);
+  cursor: pointer;
+}
+
+.trashIcon:hover {
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.2);
+  color: var(--color-secondary-200);
+}
+.delete-btn {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+.w-6 {
+  width: 1.5rem;
+}
+
+.h-6 {
+  height: 1.5rem;
+}
+
 @keyframes fade-blur-in {
   from {
     opacity: 0;
