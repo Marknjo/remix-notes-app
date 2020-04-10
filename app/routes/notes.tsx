@@ -59,7 +59,7 @@ export const action: ActionFunction = async ({ request }) => {
   }
 
   const hasErrors = Object.values(Object.values(errors)).some(
-    errorMes => errorMes,
+    errorMes => errorMes.title || errorMes.description,
   )
 
   if (hasErrors) {
