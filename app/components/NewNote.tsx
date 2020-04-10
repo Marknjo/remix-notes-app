@@ -50,12 +50,18 @@ function normalizeErrors(errors: TErrors | undefined) {
   }
 }
 
-function ErrorField({ errors }: { errors: TNormalizedErrors }) {
+function ErrorField({
+  errors,
+  fieldId,
+}: {
+  errors: TNormalizedErrors
+  fieldId: string
+}) {
   if (errors.length === 0) return null
   return (
     <>
       {errors.map(error => (
-        <em key={error.type} className="error-field">
+        <em key={error.type} className="error-field" id={fieldId} role="alert">
           {error.message}
         </em>
       ))}
@@ -83,8 +89,10 @@ function NewNote() {
           name="title"
           required
           className={titleErrors.length > 0 ? 'errored-field' : ''}
+          aria-errormessage={titleErrors.length > 0 ? 'title-error' : undefined}
+          aria-invalid={Boolean(titleErrors.length > 0)}
         />
-        <ErrorField errors={titleErrors} />
+        <ErrorField errors={titleErrors} fieldId="title-error" />
       </p>
       <p>
         <label htmlFor="description">Description</label>
@@ -94,8 +102,12 @@ function NewNote() {
           rows={5}
           required
           className={descriptionErrors.length > 0 ? 'errored-field' : ''}
+          aria-invalid={Boolean(descriptionErrors.length > 0)}
+          aria-errormessage={
+            descriptionErrors.length > 0 ? 'description-error' : undefined
+          }
         />
-        <ErrorField errors={descriptionErrors} />
+        <ErrorField errors={descriptionErrors} fieldId="description-error" />
       </p>
       <div className="form-actions">
         <button disabled={isSubmitting || false}>
