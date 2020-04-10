@@ -44,12 +44,23 @@ function normalizeErrors(errors: TErrors | undefined) {
     })) as Array<{ type: string; message: string }>
   }
 
-  console.log({ titleErrors, descriptionErrors, errors })
-
   return {
     titleErrors,
     descriptionErrors,
   }
+}
+
+function ErrorField({ errors }: { errors: TNormalizedErrors }) {
+  if (errors.length === 0) return null
+  return (
+    <>
+      {errors.map(error => (
+        <em key={error.type} className="error-field">
+          {error.message}
+        </em>
+      ))}
+    </>
+  )
 }
 
 function NewNote() {
@@ -73,6 +84,7 @@ function NewNote() {
           required
           className={titleErrors.length > 0 ? 'errored-field' : ''}
         />
+        <ErrorField errors={titleErrors} />
       </p>
       <p>
         <label htmlFor="description">Description</label>
@@ -83,6 +95,7 @@ function NewNote() {
           required
           className={descriptionErrors.length > 0 ? 'errored-field' : ''}
         />
+        <ErrorField errors={descriptionErrors} />
       </p>
       <div className="form-actions">
         <button disabled={isSubmitting || false}>
