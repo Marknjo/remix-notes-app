@@ -1,15 +1,64 @@
 import type { LinksFunction } from '@remix-run/node'
 import { Form, useActionData, useNavigation } from '@remix-run/react'
 import styles from './NewNote.css'
+import { useCallback } from 'react'
 
 export type TErrors = Array<{
+  type: string
   title: string | null
   description: string | null
 }>
 
+type TNormalizedError = {
+  type: string
+  message: string
+}
+type TNormalizedErrors = Array<TNormalizedError>
+
+function normalizeErrors(errors: TErrors | undefined) {
+  let titleErrors: TNormalizedErrors | [] = []
+  let descriptionErrors: TNormalizedErrors | [] = []
+
+  if (!errors) {
+    return {
+      titleErrors,
+      descriptionErrors,
+    }
+  }
+
+  const titleErrorsF = errors.filter(error => error.title)
+
+  const descriptionErrorsF = errors.filter(error => error.description) || []
+
+  if (titleErrorsF.length > 0) {
+    titleErrors = titleErrorsF.map(error => ({
+      type: error.type,
+      message: error.title,
+    })) as Array<{ type: string; message: string }>
+  }
+
+  if (descriptionErrorsF.length > 0) {
+    descriptionErrors = descriptionErrorsF.map(error => ({
+      type: error.type,
+      message: error.description,
+    })) as Array<{ type: string; message: string }>
+  }
+
+  console.log({ titleErrors, descriptionErrors, errors })
+
+  return {
+    titleErrors,
+    descriptionErrors,
+  }
+}
+
 function NewNote() {
   const navigation = useNavigation()
-  const errors = useActionData<TErrors>()
+  const errors = useActionData<TErrors | undefined>()
+  const { titleErrors, descriptionErrors } = useCallback(
+    () => normalizeErrors(errors),
+    [errors],
+  )()
 
   const isSubmitting = navigation.state === 'submitting'
 
@@ -17,11 +66,23 @@ function NewNote() {
     <Form method="post" id="note-form">
       <p>
         <label htmlFor="title">Title</label>
-        <input type="text" id="title" name="title" required />
+        <input
+          type="text"
+          id="title"
+          name="title"
+          required
+          className={titleErrors.length > 0 ? 'errored-field' : ''}
+        />
       </p>
       <p>
         <label htmlFor="description">Description</label>
-        <textarea id="description" name="description" rows={5} required />
+        <textarea
+          id="description"
+          name="description"
+          rows={5}
+          required
+          className={descriptionErrors.length > 0 ? 'errored-field' : ''}
+        />
       </p>
       <div className="form-actions">
         <button disabled={isSubmitting || false}>
