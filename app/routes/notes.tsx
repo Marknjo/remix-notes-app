@@ -63,7 +63,13 @@ export const action: ActionFunction = async ({ request }) => {
   )
 
   if (hasErrors) {
-    return Object.values(errors) as TErrors
+    return {
+      errors: Object.values(errors) as TErrors,
+      values: {
+        title: newNote.title,
+        description: newNote.description,
+      },
+    }
   }
 
   // save to store
