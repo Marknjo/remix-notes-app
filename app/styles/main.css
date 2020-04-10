@@ -83,6 +83,25 @@ body {
   font-size: 1.5rem;
 }
 
+.error-field {
+  color: rgb(216, 78, 53);
+  display: inline-block;
+  padding: 4px;
+  font-size: 0.9rem;
+}
+
+.error-field::after {
+  content: '\002A';
+  display: block;
+  position: absolute;
+  top: 15px;
+  left: 4px;
+}
+
+.errored-field {
+  border: 1px solid rgb(216, 78, 53) !important;
+}
+
 @keyframes fade-blur-in {
   from {
     opacity: 0;
