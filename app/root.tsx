@@ -63,25 +63,31 @@ export function ErrorBoundary() {
   if (isRouteErrorResponse(error)) {
     return (
       <Document title={`Error | ${error.status}`}>
-        <h1>
-          {error.status} {error.statusText}
-        </h1>
-        <p>{error.data}</p>
+        <main className="error">
+          <h1>
+            {error.status} {error.statusText}
+          </h1>
+          <p>{error.data}</p>
+        </main>
       </Document>
     )
   } else if (error instanceof Error) {
     return (
       <Document title="Error">
-        <h1>Error</h1>
-        <p>{error.message}</p>
-        <p>The stack trace is:</p>
-        <pre>{error.stack}</pre>
+        <main className="error">
+          <h1>Error</h1>
+          <p>{error.message}</p>
+          <p>The stack trace is:</p>
+          <pre>{error.stack}</pre>
+        </main>
       </Document>
     )
   } else {
     return (
       <Document title="Error">
-        <h1>Unknown Error</h1>
+        <main className="error">
+          <h1>Unknown Error</h1>
+        </main>
       </Document>
     )
   }
