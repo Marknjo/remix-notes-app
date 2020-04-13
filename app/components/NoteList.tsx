@@ -1,5 +1,7 @@
 import type { INote } from '~/data/notes'
 import styles from './NoteList.css'
+import TrashIcon from './TrashIcon'
+import { Form } from '@remix-run/react'
 
 function NoteList({ notes }: { notes: Array<INote> }) {
   return (
@@ -23,6 +25,11 @@ function NoteList({ notes }: { notes: Array<INote> }) {
                 </li>
               </ul>
               <h2>{note.title}</h2>
+              <Form action="/delete-note" method="delete">
+                <button type="submit" className="delete-btn">
+                  <TrashIcon />
+                </button>
+              </Form>
             </header>
             <p>{note.description}</p>
           </article>
