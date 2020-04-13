@@ -74,7 +74,7 @@ export async function getNote(id: string) {
     return notes[findNote(id, notes)]
   } catch (error) {
     throw new Response(null, {
-      status: error instanceof Error ? 400 : 500,
+      status: error instanceof Error ? 404 : 500,
       statusText:
         error instanceof Error ? error.message : 'Failed to find a note',
     })
