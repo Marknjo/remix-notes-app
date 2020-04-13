@@ -3,6 +3,7 @@ import type {
   LoaderFunction,
   ActionFunction,
   LinksFunction,
+  V2_MetaFunction,
 } from '@remix-run/node'
 import { useLoaderData } from '@remix-run/react'
 import type { TErrors } from '~/components/NewNote'
@@ -10,6 +11,11 @@ import NewNote, { links as newNoteStyles } from '~/components/NewNote'
 import NoteList, { links as noteListStyles } from '~/components/NoteList'
 import type { INote } from '~/data/notes'
 import { createNote, getStoredNotes } from '~/data/notes'
+
+export const meta: V2_MetaFunction = () => [
+  { title: 'Notes' },
+  { name: 'description', content: 'All notes' },
+]
 
 export const loader: LoaderFunction = async () => {
   return getStoredNotes()

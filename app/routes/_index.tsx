@@ -2,12 +2,15 @@ import type { LinksFunction, V2_MetaFunction } from '@remix-run/node'
 import { Link } from '@remix-run/react'
 import homeStyles from '~/styles/home.css'
 
-export const meta: V2_MetaFunction = () => {
-  return [
-    { title: 'New Remix App' },
-    { name: 'description', content: 'Welcome to Remix!' },
-  ]
-}
+export const meta: V2_MetaFunction = () => [
+  {
+    name: 'description',
+    content: 'A notes app',
+  },
+  {
+    title: 'Notes Pad',
+  },
+]
 
 export default function Index() {
   return (

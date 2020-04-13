@@ -1,9 +1,29 @@
-import type { LinksFunction, LoaderFunction } from '@remix-run/node'
+import type {
+  LinksFunction,
+  LoaderFunction,
+  V2_MetaFunction,
+} from '@remix-run/node'
 import { Link, useLoaderData } from '@remix-run/react'
 import DeleteNoteForm from '~/components/DeleteNoteForm'
 import type { INote } from '~/data/notes'
 import { getNote } from '~/data/notes'
 import noteStyles from '~/styles/note-detail.css'
+
+export const meta: V2_MetaFunction = ({ data }) => {
+  if (!data) return [{}]
+
+  const note = data as INote
+
+  return [
+    {
+      title: note.title,
+    },
+    {
+      name: 'description',
+      content: note.description.slice(0, 65),
+    },
+  ]
+}
 
 export default function NotePage() {
   const note = useLoaderData<INote>()
