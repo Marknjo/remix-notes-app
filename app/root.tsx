@@ -1,6 +1,7 @@
 import { cssBundleHref } from '@remix-run/css-bundle'
 import type { LinksFunction } from '@remix-run/node'
 import {
+  Link,
   Links,
   LiveReload,
   Meta,
@@ -59,15 +60,16 @@ export default function App() {
 
 export function ErrorBoundary() {
   const error = useRouteError()
+  const isDev = process.env.NODE_ENV === 'development'
 
   if (isRouteErrorResponse(error)) {
     return (
       <Document title={`Error | ${error.status}`}>
         <main className="error">
-          <h1>
-            {error.status} {error.statusText}
-          </h1>
-          <p>{error.data}</p>
+          <h1>{error.status}</h1>
+          <p>{error.data || error.statusText}</p>
+
+          <Link to="/">&larr; Take me back to safety</Link>
         </main>
       </Document>
     )
@@ -78,7 +80,9 @@ export function ErrorBoundary() {
           <h1>Error</h1>
           <p>{error.message}</p>
           <p>The stack trace is:</p>
-          <pre>{error.stack}</pre>
+          {isDev && <pre>{error.stack}</pre>}
+
+          <Link to="/">&larr; Take me back to safety</Link>
         </main>
       </Document>
     )
@@ -87,6 +91,8 @@ export function ErrorBoundary() {
       <Document title="Error">
         <main className="error">
           <h1>Unknown Error</h1>
+
+          <Link to="/notes">&larr; Take me back to safety</Link>
         </main>
       </Document>
     )
